@@ -9,9 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import com.mvc.demo.entity.Employee;
 import com.mvc.demo.repository.EmployeeRepository;
@@ -34,7 +32,7 @@ public class EmployeeController {
 	@GetMapping("/addEmployee")
 	public String addEmployee(Model model) {
 
-		Employee employee=new Employee();
+		Employee employee = new Employee();
 		model.addAttribute("employee", employee);
 		return "add";
 	}
@@ -42,8 +40,8 @@ public class EmployeeController {
 	@PostMapping("/add")
 	public String addEmployeeToDB(@ModelAttribute("employee") Employee employee) {
 
-	 employeeService.saveProduct(employee);
-return "redirect:/view";
+		employeeService.saveProduct(employee);
+		return "redirect:/view";
 	}
 
 	@GetMapping("/view")
@@ -65,28 +63,27 @@ return "redirect:/view";
 
 		return "update";
 	}
-	
-	
+
 	@PostMapping("/update")
 	public String updateEmployeeById(@ModelAttribute("employee") Employee employee) {
 
-		Employee emp = employeeRepository.findById(employee.getId()).get();
+		Employee emp = employeeService.getEmployeeById(employee.getId());
 		emp.setName(employee.getName());
 		emp.setEmail(employee.getEmail());
 		emp.setMobile(employee.getMobile());
 		emp.setCity(employee.getCity());
 		emp.setCountry(employee.getCountry());
-		
+
 		employeeRepository.save(emp);
-		
+
 		return "redirect:/view";
 	}
 
 	@GetMapping("/delete/{id}")
 	public String deleteEmployee(@PathVariable("id") Integer id) {
-		
+
 		employeeRepository.deleteById(id);
-		
+
 		return "redirect:/view";
 	}
 

@@ -10,5 +10,5 @@ public interface EmployeeService  {
 
 	public List<Employee> getAllProductList();
 	
-	
+	public Employee getEmployeeById(Integer id);
 }
